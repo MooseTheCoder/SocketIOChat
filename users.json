@@ -1,0 +1,14 @@
+{
+	"user1": {
+		"password": "test",
+		"name": "Mark",
+		"avatar": "avatars/dawae.jpg",
+		"friends": ["user2"]
+	},
+	"user2": {
+		"password": "test",
+		"name": "Other mark",
+		"avatar": "avatars/global.jpg",
+		"friends": ["user1"]
+    }
+}

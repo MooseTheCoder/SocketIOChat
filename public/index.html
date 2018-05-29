@@ -1,0 +1,104 @@
+<html>
+    <head>
+        <script src="/push.js/push.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="/spectre.css/spectre.css">
+        <link rel="stylesheet" href="/spectre.css/icons.css">
+        <title>OMP!</title>
+        <!--OneSignal Notifictions-->
+    </head>
+
+    <body>
+        <div id="view-login">
+
+            <div class="container max20">
+                <div class="columns">
+                    <div class="column col-12">
+                        <h3>OpenChat Platform!</h3>
+                    </div>
+                    <div class="column col-12">
+                        <input class="form-input" type="text" id="login-username" placeholder="Username" style="margin-top: 5px;">
+                    </div>
+                    <div class="column col-12">
+                        <input class="form-input" type="password" id="login-password" placeholder="Password" style="margin-top: 5px;">
+                    </div>
+                    <div class="column col-12"><br /></div>
+                    <div class="column col-6">
+                        <button class="btn col-12" id="login-try-login">Login</button>
+                    </div>
+                    <div class="column col-6">
+                            <button class="btn btn-primary col-12" id="login-try-login">Create Account</button>
+                        </div>
+                </div>
+                <br />
+                <p id="login-errors"></p>
+            </div>
+
+        </div>
+
+
+        <div id="view-users">
+                <div class="panel">
+                        <div class="panel-header text-center">
+                          <figure class="avatar avatar-lg">
+                            <img src="img/avatar-2.png" alt="Avatar" id="user-active-avatar">
+                          </figure>
+                          <div class="panel-title h5 mt-10" id="user-active-name">Developer</div>
+                          <div class="panel-subtitle" id="user-active-username">THE HULK</div>
+                        </div>
+                        <nav class="panel-nav">
+                          <ul class="tab tab-block">
+                            <li class="tab-item active">
+                                <a href="#c">Users</a>
+                            </li>
+                          </ul>
+                        </nav>
+                        <div class="panel-body max20" id="panel-users">
+                            <br />
+                        </div>
+                      </div>
+        </div>
+
+        <div id="view-chat">
+          <div class="panel" style="width:100%;">
+            <div class="messages" id="message-window" style="height: 94%; position: fixed; width: 100%; word-break:break-all;">
+            </div>
+          </div>
+
+          <div class="panel">
+              <div class="panel-footer" style="position:fixed; bottom:0px; width:100%; margin-top: 10px;">
+                  <div class="input-group">                
+                      <button class="btn btn-primary" id="chat-back">
+                          <li class="icon icon-back"></li>
+                      </button>
+                      <button class="btn btn-success" id="chat-send-photo">
+                          <li class="icon icon-photo"></li>
+                      </button>                      
+                      <input class="form-input" placeholder="Enter message" type="text" id="chat-message">
+                      <button class="btn btn-primary input-group-btn" id="send-chat">Send</button>
+                  </div>
+              </div>
+          </div>
+        </div>
+
+        <div class="modal" id="modal-image-send">
+            <div class="modal-container">
+              <div class="modal-header">
+                <a href="#c" class="btn btn-clear float-right" aria-label="Close" id="modal-image-send-close"></a>
+                <div class="modal-title h5">Send Image</div>
+              </div>
+              <div class="modal-body">
+                <div class="content">
+                  <input type="text" id="chat-image-link-direct" placeholder="Image Link" class="form-input" />
+                  <button class="btn" id="chat-image-link-direct-go" style="margin-top:5px;">Go!</button>
+                </div>
+              </div>
+            </div>
+          </div>        
+
+    <script src="jquery"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="main.js"></script>
+    </body>
+</html>
