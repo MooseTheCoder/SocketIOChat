@@ -8,6 +8,7 @@ var activeFriend = "";
 var myAvatar = "";
 var autoScroll = true;
 var chatIsActive = false;
+var friendNameNVP = [];
 // Show login view
 
 $('#view-login').css('display','inline');
@@ -42,6 +43,7 @@ socket.on('login-success',function(name,avatar,friends){
 });
 
 socket.on('have-friend-detail',function(friend,name,avatar){
+    friendNameNVP[friend] = name;
     $('#panel-users').html($('#panel-users').html()+'<div class="container" id="user-'+friend+'"><div class="columns"><div class="column col-4"><figure class="avatar"><img src="'+avatar+'" alt="Avatar"></figure></div><div class="column col-6">'+name+'</div><div class="column col-1"><button class="btn btn-primary btn-success btn" onclick="openChat(\''+friend+'\')"><i class="icon icon-forward"></i></button></div></div></div><br />');
 });
 
@@ -77,13 +79,15 @@ $('#send-chat').on('click',function(){
 });
 
 socket.on('have-message-from',function(message,name,avatar){
-    var formattedMessage = '<div class="tile"><div class="tile-icon"><figure class="avatar"><img src="'+avatar+'" alt="Avatar"></figure></div><div class="tile-content"><p class="tile-title">'+name+'</p><p class="tile-subtitle message-data">'+message+'</p></div></div>';
-    $('#message-window').html($('#message-window').html()+formattedMessage);
+    if(name == friendNameNVP[activeFriend]){
+        var formattedMessage = '<div class="tile"><div class="tile-icon"><figure class="avatar"><img src="'+avatar+'" alt="Avatar"></figure></div><div class="tile-content"><p class="tile-title">'+name+'</p><p class="tile-subtitle message-data">'+message+'</p></div></div>';
+        $('#message-window').html($('#message-window').html()+formattedMessage);
+    }
     if(!activeFriend == iAm){
         callUpdateChatLogJson(iAm,activeFriend,message);
         //callUpdateChatLog(iAm,activeFriend,formattedMessage);
     }
-    notify('New Message!','From '+ name);
+    notify('New Message!','From '+ name,name);
     if(autoScroll){
         $("#message-window").animate({ scrollTop: $("#message-window").prop("scrollHeight") - $("#message-window").height() }, 0);
     }
@@ -119,12 +123,12 @@ $('#chat-image-link-direct-go').on('click',function(){
     $('#modal-image-send').removeClass('active');
 });
 
-function notify(title,content){
+function notify(title,content,from){
     if (Notification.permission != "granted"){
         Notification.requestPermission();
     }
     
-    if(!chatIsActive){
+    if(!chatIsActive || friendNameNVP[activeFriend] != from){
         var notification = new Audio("notif.mp3");
         notification.play();
         Push.create(title, {
