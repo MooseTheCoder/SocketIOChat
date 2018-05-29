@@ -88,7 +88,7 @@ function SERVER_user_load_master(){
 
 function writeChatLogJson(from,to,message){
     var messageJsonString = JSON.stringify({fromUser:from,toUser:to,messageConent:message});
-    console.log(messageJsonString);
+	
     var userDir = historyDir+from;
     var userToDir = userDir+'/'+to;
     if (!fs.existsSync(userDir)){
