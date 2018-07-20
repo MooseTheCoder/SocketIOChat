@@ -1,6 +1,9 @@
 // Start Socket App
-
 var socket = io();
+// File uploader
+
+var uploader = new SocketIOFileUpload(socket);
+
 var iAm = "";
 var myName = "";
 var iAmIn = false;
@@ -9,6 +12,21 @@ var myAvatar = "";
 var autoScroll = true;
 var chatIsActive = false;
 var friendNameNVP = [];
+
+function loadFromLocalStorage(toLoad){
+    //Get var from local storage if it is a thing
+    if(window.localStorage.getItem(toLoad) != "" || window.localStorage.getItem(toLoad) != null){
+        var varTemp = window.localStorage.getItem(toLoad);
+        // assign the vars
+        eval(toLoad + '="' + varTemp+'"');
+    }
+}
+
+function setToLocalStorage(index,value){
+    window.localStorage.setItem(index,value);
+    eval(index+'="'+value+'"');
+}
+
 // Show login view
 
 $('#view-login').css('display','inline');
@@ -19,7 +37,8 @@ $('#login-try-login').click(function(){
     var username = $('#login-username').val();
     var password = $('#login-password').val();
     socket.emit('user-login-try',username,password);
-    iAm = username;
+    setToLocalStorage('iAm',username);
+    //iAm = username;
 });
 
 socket.on('login-error',function(err){
@@ -27,9 +46,9 @@ socket.on('login-error',function(err){
 });
 
 socket.on('login-success',function(name,avatar,friends){
-    iAmIn = true;
-    myAvatar = avatar;
-    myName = name;
+    setToLocalStorage('iAmIn',true);
+    setToLocalStorage('myAvatar',avatar);
+    setToLocalStorage('myName',name);
     $('#view-login').css('display','none');
     $('#view-users').css('display','inline');
     //set user page
@@ -121,6 +140,26 @@ $('#chat-image-link-direct-go').on('click',function(){
     $('#chat-message').val('<img src="'+image+'">');
     $('#chat-image-link-direct').val('');
     $('#modal-image-send').removeClass('active');
+});
+
+$('#chat-image-upload-go').on('click',function(){
+    var uploadedFileNameString = "";
+    uploader.addEventListener("start",function(event){
+        // Change filename
+        var today = new Date();
+        var filenameArray = event.file.name.split('.');
+        var fileExtention = filenameArray[filenameArray.length-1];
+        var newFilename = today.getFullYear()+'_'+(today.getMonth()+1)+'_'+today.getDate()+'_'+today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds() + '.'+fileExtention;
+        //event.file.name = newFilename;
+        //uploadedFileNameString = newFilename;
+        uploadedFileNameString = event.file.name;
+    });
+    uploader.addEventListener("complete",function(){
+        $('#chat-message').val('<img src="/uploads/'+uploadedFileNameString+'">');
+        $('#send-chat').click();
+        $('#modal-image-send').removeClass('active');
+    });
+    uploader.submitFiles(document.getElementById("chat-image-upload").files);
 });
 
 function notify(title,content,from){

@@ -1,12 +1,12 @@
 <html>
     <head>
         <script src="/push.js/push.min.js"></script>
+        <script src="/siofu/client.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="/spectre.css/spectre.css">
         <link rel="stylesheet" href="/spectre.css/icons.css">
         <title>OMP!</title>
-        <!--OneSignal Notifictions-->
     </head>
 
     <body>
@@ -90,8 +90,14 @@
               </div>
               <div class="modal-body">
                 <div class="content">
+                    <p>link an image</p>
                   <input type="text" id="chat-image-link-direct" placeholder="Image Link" class="form-input" />
-                  <button class="btn" id="chat-image-link-direct-go" style="margin-top:5px;">Go!</button>
+                  <button class="btn" id="chat-image-link-direct-go" style="margin-top:5px;">Link</button>
+                  <br />
+                  <br />
+                  <p>or upload an image</p>
+                  <input type="file" id="chat-image-upload" />
+                  <button class="btn" id="chat-image-upload-go" style="margin-top:5px;">Upload</button>
                 </div>
               </div>
             </div>

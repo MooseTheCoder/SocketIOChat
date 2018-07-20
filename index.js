@@ -1,4 +1,5 @@
-var app = require('express')();
+var siofu = require("socketio-file-upload");
+var app = require('express')().use(siofu.router);
 var http = require('http').Server(app);
 var https = require('https');
 var path = require('path');
@@ -32,6 +33,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // User Connection
 
 io.on('connection', function(socket){
+    // File uploader
+    var uploader = new siofu();
+    uploader.dir = __dirname + '/public/uploads';
+    uploader.listen(socket);
+
     // User trys login
     socket.on('user-login-try', function(username,password){
         if(server_userList[username]){
