@@ -142,25 +142,20 @@ $('#chat-image-link-direct-go').on('click',function(){
     $('#modal-image-send').removeClass('active');
 });
 
-$('#chat-image-upload-go').on('click',function(){
-    var uploadedFileNameString = "";
-    uploader.addEventListener("start",function(event){
-        // Change filename
-        var today = new Date();
-        var filenameArray = event.file.name.split('.');
-        var fileExtention = filenameArray[filenameArray.length-1];
-        var newFilename = today.getFullYear()+'_'+(today.getMonth()+1)+'_'+today.getDate()+'_'+today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds() + '.'+fileExtention;
-        //event.file.name = newFilename;
-        //uploadedFileNameString = newFilename;
-        uploadedFileNameString = event.file.name;
-    });
-    uploader.addEventListener("complete",function(){
-        $('#chat-message').val('<img src="/uploads/'+uploadedFileNameString+'">');
-        $('#send-chat').click();
-        $('#modal-image-send').removeClass('active');
-    });
-    uploader.submitFiles(document.getElementById("chat-image-upload").files);
+// File uploader
+uploader.listenOnSubmit(document.getElementById("chat-image-upload-go"), document.getElementById("chat-image-upload"));
+
+var uploadedFileNameString = "";
+
+uploader.addEventListener("start",function(event){
+    uploadedFileNameString = event.file.name;
 });
+uploader.addEventListener("complete",function(){
+    $('#chat-message').val('<img src="/uploads/'+uploadedFileNameString+'">');
+    $('#send-chat').click();
+    $('#modal-image-send').removeClass('active');
+});
+
 
 function notify(title,content,from){
     if (Notification.permission != "granted"){
